@@ -277,7 +277,6 @@ class TwoLayerNet(object):
 
       # Compute loss and gradients using the current minibatch
       loss, grads = self.loss(X_batch, y=y_batch, reg=reg, dropout=dropout,dropMask=dropMask)
-      loss_history.append(loss)
 
       #########################################################################
       # TODO: Use the gradients in the grads dictionary to update the         #
@@ -342,16 +341,17 @@ class TwoLayerNet(object):
           for key in top_params:
             expratio=.9
             top_params[key] = expratio*top_params[key]+(1-expratio)*self.params[key]
-      if verbose and it % (num_iters/10) == 0:
+      if verbose and it % (num_iters/500) == 0:
         print 'iteration %d / %d: loss %f' % (it, num_iters, loss)
+        loss_history.append(loss)
+        train_acc_history.append(train_acc)
+        val_acc_history.append(val_acc)
 
       # Every epoch, check train and val accuracy and decay learning rate.
       if it % iterations_per_epoch == 0:
         # Check accuracy
         train_acc = loss
         val_acc = sum((self.predict(X) - y)**2)
-        train_acc_history.append(train_acc)
-        val_acc_history.append(val_acc)
 
         # Decay learning rate
         learning_rate *= learning_rate_decay
