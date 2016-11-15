@@ -29,7 +29,7 @@ print xte.shape
 
 input_size = xtr.shape[1]
 num_classes = ytr.shape[1]
-hidden_size = 10
+hidden_size = 100
 
 net = TwoLayerNet(input_size,
                   hidden_size,
@@ -37,8 +37,8 @@ net = TwoLayerNet(input_size,
                   1e-4,
                   activation='tanh')
 stats = net.train(xtr, ytr, xte, yte,
-                            num_iters=100000, batch_size=1,
-                            learning_rate=1e-2, learning_rate_decay=0.99,
+                            num_iters=3000000, batch_size=2,
+                            learning_rate=1e-2, learning_rate_decay=1.,
                             reg=0,
                   verbose=True,
                   update="momentum",

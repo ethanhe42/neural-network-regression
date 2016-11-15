@@ -251,6 +251,9 @@ class TwoLayerNet(object):
     ####
 
     for it in xrange(num_iters):
+      if it % (num_iters/3) == 0 and it != 0:
+        learning_rate *=.1
+        print learning_rate
       X_batch = None
       y_batch = None
 
@@ -339,7 +342,7 @@ class TwoLayerNet(object):
           for key in top_params:
             expratio=.9
             top_params[key] = expratio*top_params[key]+(1-expratio)*self.params[key]
-      if verbose and it % 100 == 0:
+      if verbose and it % (num_iters/10) == 0:
         print 'iteration %d / %d: loss %f' % (it, num_iters, loss)
 
       # Every epoch, check train and val accuracy and decay learning rate.
@@ -353,13 +356,15 @@ class TwoLayerNet(object):
         # Decay learning rate
         learning_rate *= learning_rate_decay
 
+
         ### update top model
         if selectbest and val_acc < top_acc:
           top_acc = val_acc
           top_params=self.params.copy()
 
     	if verbose:
-          print ('loss, %f train_acc %f, val_acc %f, time %d' % (loss, train_acc, val_acc,(time.time()-start_time)/60.0))
+          pass
+          #print ('loss, %f train_acc %f, val_acc %f, time %d' % (loss, train_acc, val_acc,(time.time()-start_time)/60.0))
 
     self.params=top_params.copy()
     ### update params to top params finally
