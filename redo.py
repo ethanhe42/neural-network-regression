@@ -1,7 +1,7 @@
 # coding: utf-8
 from scipy.interpolate import spline
 import sys
-from data_utils import load_CIFAR10
+#from data_utils import load_CIFAR10
 from neural_net import *
 import matplotlib.pyplot as plt
 import time
@@ -35,7 +35,7 @@ def sinedataset(points=200):
         plt.scatter(xtr,ytr)
         #plt.show()
         plt.savefig('scatter')
-    return xtr, ytr, x[teidxs][:, np.newaxis], y[teidxs][:,np.newaxis]
+    return xtr, ytr, x[teidxs][:, np.newaxis]/right, y[teidxs][:,np.newaxis]
 
 xtr, ytr, xte, yte = sinedataset()
 print xtr.shape
@@ -43,7 +43,7 @@ print xte.shape
 
 input_size = xtr.shape[1]
 num_classes = ytr.shape[1]
-hidden_size = 100
+hidden_size = 10
 
 net = TwoLayerNet(input_size,
                   hidden_size,
@@ -66,8 +66,8 @@ def acc(x,y):
 
 plt.cla()
 #print net.predict(xtr)
-plt.plot(net.predict(xtr))
-plt.plot(ytr)
+plt.plot(net.predict(xte))
+plt.plot(yte)
 plt.savefig('fig')
 
 print 'Train accuracy: ', acc(xtr,ytr)
